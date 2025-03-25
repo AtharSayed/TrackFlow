@@ -1,6 +1,4 @@
-# CrowdScan QR - Smart Crowd Management System
-
-![Project Banner](https://via.placeholder.com/800x200?text=CrowdScan+QR+-+Smart+Crowd+Management) 
+# TrackFlow - Smart Crowd Management System
 
 A cost-effective, cross-platform solution for efficient crowd management through QR code scanning. The system provides real-time analytics and predictive insights to optimize space utilization.
 
