@@ -4,239 +4,371 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Check-In</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        /* Global styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+        :root {
+            --primary-color: #4361ee;
+            --success-color: #4bb543;
+            --error-color: #ff3333;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #495057;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-gray);
+            color: #212529;
+            line-height: 1.6;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            box-sizing: border-box;
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        /* Centering the container */
         .container {
             width: 100%;
             max-width: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
             padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            box-sizing: border-box;
-            margin: 20px;
+            text-align: center;
         }
 
         h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: 0;
         }
 
-        form {
-            width: 100%;
+        .form-container {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: bold;
-            color: #333;
+            font-weight: 500;
+            color: var(--dark-gray);
         }
 
-        input, select, button {
+        input, select {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 16px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-sizing: border-box;
+            padding: 12px 15px;
+            border: 2px solid var(--medium-gray);
+            border-radius: 8px;
             font-size: 16px;
+            transition: all 0.3s;
         }
 
-        select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
+        input:focus, select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        input.error {
+            border-color: var(--error-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
         }
 
         button {
-            background-color: #5cb85c;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
             border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
         }
 
         button:hover {
-            background-color: #4cae4c;
+            background-color: #3a56d4;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
         }
 
         .message {
-            margin-top: 20px;
             padding: 15px;
-            background-color: #e7f3e7;
-            border: 1px solid #5cb85c;
-            border-radius: 6px;
-            color: #5cb85c;
-            display: none;
+            margin-top: 20px;
+            border-radius: 8px;
             text-align: center;
+            display: none;
         }
 
-        img {
-            margin-top: 10px;
-            max-width: 150px;
+        .success {
+            background-color: rgba(75, 181, 67, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .error {
+            background-color: rgba(255, 51, 51, 0.1);
+            border: 1px solid var(--error-color);
+            color: var(--error-color);
+        }
+
+        .qr-code {
+            margin: 20px auto;
+            max-width: 200px;
             display: block;
-            margin-left: auto;
-            margin-right: auto;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
+        .companion-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 480px) {
             .container {
+                border-radius: 0;
+            }
+            
+            .header {
                 padding: 15px;
-                margin: 10px;
             }
-
+            
             h1 {
-                font-size: 24px;
+                font-size: 1.5rem;
             }
-
-            input, select, button {
-                padding: 10px;
-                font-size: 14px;
+            
+            .form-container {
+                padding: 20px;
             }
-
-            .message {
-                font-size: 14px;
+            
+            .companion-options {
+                grid-template-columns: 1fr;
             }
         }
-
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Event Check-In</h1>
-        <form id="user-form">
-            <input type="hidden" id="user-id" value="{{ user_id }}">
+        <div class="header">
+            <h1>Event Check-In</h1>
+        </div>
+        
+        <div class="form-container">
+            <form id="user-form" novalidate>
+                <input type="hidden" id="user-id" value="{{ user_id }}">
 
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-
-            <div class="form-group">
-                <label for="mobile">Mobile:</label>
-                <input type="text" id="mobile" name="mobile" required>
-            </div>
-
-            <div class="form-group">
-                <label for="age">Age:</label>
-                <input type="number" id="age" name="age" required>
-            </div>
-
-            <div class="form-group">
-                <label>Are you alone?</label>
-                <select id="alone" name="alone">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
-            </div>
-
-            <div id="companion-details" style="display: none;">
                 <div class="form-group">
-                    <label>With Family?</label>
-                    <select id="with-family" name="withFamily">
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                    </select>
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                    <div class="error-message" id="name-error">Please enter your name</div>
                 </div>
 
                 <div class="form-group">
-                    <label>With Friends?</label>
-                    <select id="with-friends" name="withFriends">
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
+                    <label for="mobile">Mobile Number</label>
+                    <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" required>
+                    <div class="error-message" id="mobile-error">Please enter a valid 10-digit mobile number</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" min="1" max="120" required>
+                    <div class="error-message" id="age-error">Please enter a valid age</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="alone">Are you attending alone?</label>
+                    <select id="alone" name="alone" required>
+                        <option value="" disabled selected>Select an option</option>
+                        <option value="true">Yes, I'm alone</option>
+                        <option value="false">No, I'm with others</option>
                     </select>
                 </div>
-            </div>
 
-            <button type="submit">Submit</button>
-        </form>
+                <div id="companion-details" style="display: none;">
+                    <p>Who are you with?</p>
+                    <div class="companion-options">
+                        <div class="form-group">
+                            <label for="with-family">Family</label>
+                            <select id="with-family" name="withFamily">
+                                <option value="false">No</option>
+                                <option value="true">Yes</option>
+                            </select>
+                        </div>
 
-        <div id="message" class="message"></div>
+                        <div class="form-group">
+                            <label for="with-friends">Friends</label>
+                            <select id="with-friends" name="withFriends">
+                                <option value="false">No</option>
+                                <option value="true">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-btn">Complete Check-In</button>
+            </form>
+
+            <div id="message" class="message"></div>
+        </div>
     </div>
 
     <script>
-        // Toggle companion details based on "Are you alone?"
-        document.getElementById('alone').addEventListener('change', function() {
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('user-form');
+            const aloneSelect = document.getElementById('alone');
             const companionDetails = document.getElementById('companion-details');
-            const withFamilySelect = document.getElementById('with-family');
-            const withFriendsSelect = document.getElementById('with-friends');
-            
-            if (this.value === 'true') {  // "Yes" for alone
-                companionDetails.style.display = 'none';
-                withFamilySelect.value = 'false';  // Automatically set to "No"
-                withFriendsSelect.value = 'false';  // Automatically set to "No"
-            } else {  // "No" for alone
-                companionDetails.style.display = 'block';
+            const submitBtn = document.getElementById('submit-btn');
+            const messageDiv = document.getElementById('message');
+
+            // Toggle companion details
+            aloneSelect.addEventListener('change', function() {
+                companionDetails.style.display = this.value === 'false' ? 'block' : 'none';
+            });
+
+            // Form validation
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                if (!validateForm()) {
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Processing...';
+
+                try {
+                    const userData = {
+                        name: form.name.value.trim(),
+                        mobile: form.mobile.value.trim(),
+                        age: parseInt(form.age.value),
+                        alone: form.alone.value === 'true',
+                        withFamily: form.withFamily ? form.withFamily.value === 'true' : false,
+                        withFriends: form.withFriends ? form.withFriends.value === 'true' : false
+                    };
+
+                    const response = await fetch('/api/users', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(userData)
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(result.message || 'Submission failed');
+                    }
+
+                    showMessage(result.message || 'Check-in successful!', 'success');
+                    form.reset();
+
+                    if (result.qrCodeUrl) {
+                        const qrCodeImg = document.createElement('img');
+                        qrCodeImg.src = result.qrCodeUrl;
+                        qrCodeImg.alt = 'QR Code';
+                        qrCodeImg.className = 'qr-code';
+                        messageDiv.appendChild(qrCodeImg);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showMessage(error.message || 'There was an error processing your check-in. Please try again.', 'error');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Complete Check-In';
+                }
+            });
+
+            // Real-time validation
+            form.addEventListener('input', (e) => {
+                validateField(e.target);
+            });
+
+            function validateField(field) {
+                const errorElement = document.getElementById(`${field.id}-error`);
+                
+                if (field.validity.valid) {
+                    field.classList.remove('error');
+                    errorElement.style.display = 'none';
+                    return true;
+                } else {
+                    field.classList.add('error');
+                    
+                    if (field.validity.valueMissing) {
+                        errorElement.textContent = 'This field is required';
+                    } else if (field.validity.patternMismatch) {
+                        errorElement.textContent = 'Please enter a valid 10-digit mobile number';
+                    } else if (field.validity.rangeUnderflow || field.validity.rangeOverflow) {
+                        errorElement.textContent = 'Please enter a valid age between 1 and 120';
+                    }
+                    
+                    errorElement.style.display = 'block';
+                    return false;
+                }
             }
-        });
 
-        // Handle form submission
-        document.getElementById('user-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const userData = {
-                name: document.getElementById('name').value,
-                mobile: document.getElementById('mobile').value,
-                age: document.getElementById('age').value,
-                alone: document.getElementById('alone').value === 'true',
-                withFamily: document.getElementById('with-family').value === 'true',
-                withFriends: document.getElementById('with-friends').value === 'true',
-            };
-
-            // If alone is true, set withFamily and withFriends to false automatically
-            if (userData.alone) {
-                userData.withFamily = false;
-                userData.withFriends = false;
-            }
-
-            try {
-                // Send data to the server
-                const response = await fetch('/api/users', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(userData),
+            function validateForm() {
+                let isValid = true;
+                const requiredFields = ['name', 'mobile', 'age', 'alone'];
+                
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (!validateField(field)) {
+                        isValid = false;
+                    }
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+                return isValid;
+            }
 
-                const result = await response.json();
-
-                // Display the success message
-                const messageDiv = document.getElementById('message');
-                messageDiv.innerText = result.message;
+            function showMessage(text, type) {
+                messageDiv.textContent = text;
+                messageDiv.className = `message ${type}`;
                 messageDiv.style.display = 'block';
-
-                // If QR Code is provided, display it
-                if (result.qrCodeUrl) {
-                    const qrCodeImg = document.createElement('img');
-                    qrCodeImg.src = result.qrCodeUrl;
-                    qrCodeImg.alt = 'QR Code';
-                    messageDiv.appendChild(qrCodeImg);
+                
+                // Clear any existing QR code
+                const existingQr = messageDiv.querySelector('img');
+                if (existingQr) {
+                    existingQr.remove();
                 }
-            } catch (error) {
-                console.error('Error submitting the form:', error);
-                const messageDiv = document.getElementById('message');
-                messageDiv.innerText = 'There was an error submitting the form. Please try again.';
-                messageDiv.style.display = 'block';
+                
+                // Scroll to message
+                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         });
     </script>
