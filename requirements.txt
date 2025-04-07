@@ -1,7 +1,11 @@
-# Python dependencies
-Flask==2.3.2
-pymongo==4.4.1
-qrcode==7.4.2
-python-dotenv==1.0.0
-pyzbar==0.1.8
+numpy
+qrcode
+pyzbar
+opencv-python
+flask
+pymongo
 Pillow
+kafka-python
+pyspark
+Flask-SocketIO
+qrcode[pil]

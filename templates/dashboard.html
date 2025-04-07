@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crowd Management Dashboard</title>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="dashboard-header">
+        <h1>Crowd Management System</h1>
+        <div id="connection-status" class="status-disconnected">Disconnected</div>
+    </header>
+
+    <div class="dashboard-container">
+
+        <section class="card registration-card">
+            <h2><span class="section-icon">👤</span> Register Attendee</h2>
+            <form id="registration-form">
+                <input type="text" id="reg-name" placeholder="Your Name *" required>
+                <input type="tel" id="reg-phone" placeholder="Your Phone *" required>
+                <input type="text" id="reg-address" placeholder="Your Address">
+
+                <h3>Family Members (Optional)</h3>
+                <div id="family_members_container" class="members-area">
+                    </div>
+                <button type="button" class="add-btn" onclick="addMember('family')">+ Add Family Member</button>
+
+                <h3>Friends (Optional)</h3>
+                <div id="friend_members_container" class="members-area">
+                     </div>
+                <button type="button" class="add-btn" onclick="addMember('friend')">+ Add Friend</button>
+
+                <button type="submit" id="register-button" class="submit-btn">Register</button>
+
+                 <div id="register-feedback" class="feedback-message" style="display: none;"></div>
+
+                <div id="qr_display_container" style="display: none; margin-top: 15px; text-align:center;">
+                    <h3>Your QR Code</h3>
+                    <img id="qr_code_img" src="" alt="QR Code"><br>
+                    <a id="qr_download_link" href="#" download="QR_Code.png">
+                        <button type="button" class="download-btn">Download QR Code</button>
+                    </a>
+                </div>
+            </form>
+        </section>
+
+        <section class="card scan-report-card">
+            <h2><span class="section-icon">📷</span> Scan & Report</h2>
+
+            <div class="scan-trigger-area">
+                <label for="scan-location">Scan Location:</label>
+                <input type="text" id="scan-location" value="Main Gate">
+                <button id="scan-button" class="action-btn">Start Scan</button>
+                <p class="small-text">Requires camera connected to the server.</p>
+                 <div id="scan-feedback" class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <div id="scanned-data-area" style="display: none; margin-top: 15px;">
+                <h3>Scanned Details:</h3>
+                <div id="scanned-data-content" class="scanned-info"></div>
+                <button id="initiate-report-button" class="report-btn">Report Person Missing</button>
+            </div>
+
+            <div id="report-form-area" style="display: none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
+                <h3>Submit Lost Person Report</h3>
+                <form id="report-form">
+                     <p>Reporting for: <strong id="report-person-name-display">N/A</strong></p>
+                     <label for="report-location">Last Known Location *:</label>
+                     <input type="text" id="report-location" placeholder="E.g., Near Pole 115, Zone B" required>
+
+                     <label for="report-details">Additional Details:</label>
+                     <textarea id="report-details" placeholder="Clothing, description, etc."></textarea>
+
+                     <label for="reporter-name">Your Name (Optional):</label>
+                     <input type="text" id="reporter-name" placeholder="Your Name">
+
+                     <label for="reporter-contact">Your Contact (Optional):</label>
+                     <input type="text" id="reporter-contact" placeholder="Your Phone/Email">
+
+                     <div class="button-group">
+                        <button type="submit" id="submit-report-button" class="submit-btn">Submit Report</button>
+                        <button type="button" id="cancel-report-button" class="cancel-btn">Cancel</button>
+                     </div>
+                     <div id="report-feedback" class="feedback-message" style="display: none;"></div>
+                </form>
+            </div>
+        </section>
+
+        <section class="card feeds-card">
+            <div class="feed-column">
+                <h2><span class="section-icon">🔔</span> Notifications</h2>
+                <div class="notification-feed">
+                    <ul id="notification-list">
+                        <li class="placeholder">Connecting...</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="feed-column">
+                 <h2><span class="section-icon">📋</span> Lost Person Reports (<span id="report-count">0</span>)</h2>
+                 <button id="refresh-reports-button" class="refresh-btn">Refresh</button>
+                 <div class="report-list">
+                     <table>
+                         <thead>
+                             <tr>
+                                 <th>Status</th>
+                                 <th>Name</th>
+                                 <th>Last Seen</th>
+                                 <th>Reported At</th>
+                             </tr>
+                         </thead>
+                         <tbody id="report-list-body">
+                             <tr class="placeholder-row"><td colspan="4">Loading...</td></tr>
+                         </tbody>
+                     </table>
+                 </div>
+            </div>
+        </section>
+
+    </div> <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
