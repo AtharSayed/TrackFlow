@@ -1,6 +1,5 @@
 # 🚦 Crowd Management System with QR Tracking
 
-![Dashboard Screenshot](https://i.imgur.com/JQ8w5Ez.gif)  
 *Real-time crowd analytics dashboard*
 
 A Flask-based system for crowd monitoring using QR codes, with:
