@@ -55,49 +55,54 @@
             </form>
         </section>
 
-        <!-- Scan and Report Card -->
-        <section class="card scan-report-card">
-            <h2><span class="section-icon">📷</span> Scan & Report</h2>
+    <!-- Scan and Report Card -->
+<section class="card scan-report-card">
+    <h2><span class="section-icon">📷</span> Scan & Report</h2>
 
-            <div class="scan-trigger-area">
-                <label for="scan-location">Scan Location:</label>
-                <input type="text" id="scan-location" value="Main Gate">
-                <button id="scan-button" class="action-btn">Start Scan</button>
-                <p class="small-text">Requires camera connected to the server.</p>
-                <div id="scan-feedback" class="feedback-message" style="display: none;"></div>
+    <div class="scan-trigger-area">
+        <label for="scan-location">Scan Location:</label>
+        <select id="scan-location">
+            <option>Main Gate</option>
+            <option>North Wing</option>
+            <option>Prayer Hall</option>
+            <option>Exit Gate</option>
+        </select>
+        <button id="scan-button" class="action-btn">Start Scan</button>
+        <p class="small-text">Requires camera connected to the server.</p>
+        <div id="scan-feedback" class="feedback-message" style="display: none;"></div>
+    </div>
+
+    <div id="scanned-data-area" class="scanned-container" style="display: none;">
+        <h3>Scanned Details:</h3>
+        <div id="scanned-data-content" class="scanned-info"></div>
+        <button id="initiate-report-button" class="report-btn">Report Person Missing</button>
+    </div>
+
+    <div id="report-form-area" class="report-form-container" style="display: none;">
+        <h3>Submit Lost Person Report</h3>
+        <form id="report-form">
+            <p>Reporting for: <strong id="report-person-name-display">N/A</strong></p>
+
+            <label for="report-location">Last Known Location *:</label>
+            <input type="text" id="report-location" placeholder="E.g., Near Pole 115, Zone B" required>
+
+            <label for="report-details">Additional Details:</label>
+            <textarea id="report-details" placeholder="Clothing, description, etc."></textarea>
+
+            <label for="reporter-name">Your Name (Optional):</label>
+            <input type="text" id="reporter-name" placeholder="Your Name">
+
+            <label for="reporter-contact">Your Contact (Optional):</label>
+            <input type="text" id="reporter-contact" placeholder="Your Phone/Email">
+
+            <div class="button-group">
+                <button type="submit" id="submit-report-button" class="submit-btn">Submit Report</button>
+                <button type="button" id="cancel-report-button" class="cancel-btn">Cancel</button>
             </div>
-
-            <div id="scanned-data-area" class="scanned-container" style="display: none;">
-                <h3>Scanned Details:</h3>
-                <div id="scanned-data-content" class="scanned-info"></div>
-                <button id="initiate-report-button" class="report-btn">Report Person Missing</button>
-            </div>
-
-            <div id="report-form-area" class="report-form-container" style="display: none;">
-                <h3>Submit Lost Person Report</h3>
-                <form id="report-form">
-                    <p>Reporting for: <strong id="report-person-name-display">N/A</strong></p>
-
-                    <label for="report-location">Last Known Location *:</label>
-                    <input type="text" id="report-location" placeholder="E.g., Near Pole 115, Zone B" required>
-
-                    <label for="report-details">Additional Details:</label>
-                    <textarea id="report-details" placeholder="Clothing, description, etc."></textarea>
-
-                    <label for="reporter-name">Your Name (Optional):</label>
-                    <input type="text" id="reporter-name" placeholder="Your Name">
-
-                    <label for="reporter-contact">Your Contact (Optional):</label>
-                    <input type="text" id="reporter-contact" placeholder="Your Phone/Email">
-
-                    <div class="button-group">
-                        <button type="submit" id="submit-report-button" class="submit-btn">Submit Report</button>
-                        <button type="button" id="cancel-report-button" class="cancel-btn">Cancel</button>
-                    </div>
-                    <div id="report-feedback" class="feedback-message" style="display: none;"></div>
-                </form>
-            </div>
-        </section>
+            <div id="report-feedback" class="feedback-message" style="display: none;"></div>
+        </form>
+    </div>
+</section>
 
         <!-- Feeds and Reports -->
         <section class="card feeds-card">
