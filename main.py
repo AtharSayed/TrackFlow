@@ -18,7 +18,6 @@ import time
 #KAFKA_BROKER = 'localhost:9092' # Or None
 KAFKA_BROKER = None  # Disable Kafka temporarily for testing
 
-#MONGO_URI = "mongodb+srv://onShore:sahu9821@cluster0.a6ot5gp.mongodb.net/?retryWrites=true&w=majority"
 MONGO_URI = "mongodb://localhost:27017"
 QR_FOLDER_NAME = "qr_codes" # Subfolder within static
 QR_STATIC_FOLDER = os.path.join("static", QR_FOLDER_NAME)
