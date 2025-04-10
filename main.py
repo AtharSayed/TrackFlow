@@ -131,9 +131,9 @@ def register():
               print(f"Skipping invalid friend data: {friend}")
 
 
-    unique_id = phone 
+    unique_id = str(uuid.uuid4()) 
     qr_filename = f"qr_{unique_id}.png"
-    qr_data = { "id": unique_id, "name": name, "phone": phone } 
+    qr_data = { "id": unique_id, "name": name, "phone": phone }
 
     try:
         qr_web_path = generate_qr(qr_data, qr_filename)
