@@ -175,20 +175,6 @@ if not reports_df.empty:
 else:
     st.warning("No hourly report data for selected date.")
 
-# ===== TOP 5 FREQUENT VISITORS =====
-st.subheader("🥇 Top 5 Frequent Visitors Today")
-if not reports_df.empty:
-    top_users = reports_df["person_phone"].value_counts().nlargest(5).reset_index()
-    top_users.columns = ["Phone Number", "Entries"]
-    fig_pie = px.pie(
-        top_users,
-        names="Phone Number",
-        values="Entries",
-        title="Top 5 Visitors"
-    )
-    st.plotly_chart(fig_pie, use_container_width=True)
-else:
-    st.warning("No frequent visitor data for selected date.")
 
 # ===== RECENT ENTRIES =====
 st.subheader("🧾 Recent Entries")
