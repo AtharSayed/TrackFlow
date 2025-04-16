@@ -203,7 +203,8 @@ else:
 # ===== FOOTER =====
 st.markdown(
     "<div style='text-align: center; padding-top: 1rem; color: #ccc;'>"
-    "Created by <b>Athar Sayed</b>, <b>Gaurav Sahu</b>, and <b>Rushikesh Kurhade</b>"
+    "Created by <b>Athar Sayed</b> and <b>Gaurav Sahu</b>"
     "</div>",
     unsafe_allow_html=True
 )
+
